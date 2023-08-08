@@ -1,2 +1,4 @@
 # .gitignore
 node_modules
+deliverydata.txt
+sitedata.txt

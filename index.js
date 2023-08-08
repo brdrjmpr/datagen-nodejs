@@ -17,27 +17,42 @@ const timePMinMin = 120;
 
 //generate test data
 for(let x=0 ; x<numOfDataEntries ; x++) {
-  let eventLoc = locationOptions[ Math.floor(Math.random() * locationOptions.length) ];
-  let eventMat = materialOptions[ Math.floor(Math.random() * materialOptions.length) ];
-  let eventMatQty = Math.random() * ((materialqtymax+1) - materialqtymin) + materialqtymin;
-  
+  let eventRaw = {
+    'eventLoc': locationOptions[ Math.floor(Math.random() * locationOptions.length) ],
+    'eventMat': materialOptions[ Math.floor(Math.random() * materialOptions.length) ],
+    'eventMatQty': Math.random() * ((materialqtymax+1) - materialqtymin) + materialqtymin
+  }  
 
   switch(Math.floor(Math.random() * 2)) {
     case(0):
-      writeToDelivData( generateDelivData(x));
+      writeToDelivData( x + generateDelivData(eventRaw));
       break;
     case(1):
-      writeToSiteData( generateSiteData(x) )
+      writeToSiteData( x + generateSiteData(eventRaw) )
       break;
   }
 } 
 
-function generateDelivData(someinput) {
-  return("this is delivery data " + someinput + "\r");
+function generateDelivData(rawEventObj) {
+  let did = 1234;     //
+  let strtime = "start time";
+  let endtime = "end time";
+  let location = rawEventObj != undefined ? rawEventObj.eventLoc : "undefined location";
+  let matqty = rawEventObj != undefined ? rawEventObj.eventMatQty : "undefined material quantity";
+  let matname = rawEventObj != undefined ? rawEventObj.eventMat : "undefined material";
+
+  return(did + "," + strtime + "," + endtime + "," + location + "," + matqty + "," + matname + "," + "\r");
 }
 
-function generateSiteData(someinput) {
-  return("I am site data " + someinput + "\r");
+function generateSiteData(rawEventObj) {
+  let did = 56789;     //
+  let strtime = "start time";
+  let endtime = "end time";
+  let location = rawEventObj != undefined ? rawEventObj.eventLoc : "undefined location";
+  let matqty = rawEventObj != undefined ? rawEventObj.eventMatQty : "undefined material quantity";
+  let matname = rawEventObj != undefined ? rawEventObj.eventMat : "undefined material";
+  
+  return(did + "," + strtime + "," + endtime + "," + location + "," + matqty + "," + matname + "," + "\r");
 }
 
 function writeToDelivData(dataStr) {
